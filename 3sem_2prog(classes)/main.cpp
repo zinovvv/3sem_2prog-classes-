@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <iomanip>
 #include <Windows.h>
 
 class Track {
@@ -41,11 +42,34 @@ public:
         return Track(title, artist, duration, year, genre);
     }
 
+    static Track InputShortTrack() {
+        std::string title, artist,genre;
+        int duration,year;
+
+        std::cout << "\nНазвание трека: ";
+        std::cin.ignore();
+        std::getline(std::cin, title);
+
+        std::cout << "Жанр трека: ";
+        std::getline(std::cin, genre);
+
+        std::cout << "Длительность трека: ";
+        std::cin >> duration;
+
+        return Track(title,"", duration, 0,genre );
+    }
+
     void OutputTrack() const {
         std::cout << "Название: " << title << std::endl;
         std::cout << "Исполнитель: " << artist << std::endl;
         std::cout << "Длительность: " << duration << " seconds" << std::endl;
         std::cout << "Год выхода: " << year << std::endl;
+        std::cout << "Жанр: " << genre << std::endl;
+    }
+
+    void OutputShortTrack() const {
+        std::cout << std::left << "Название: " << std::setw(25)<< title;
+        std::cout << std::left  << "Длительность: " <<duration << std::setw(10) << " сек";
         std::cout << "Жанр: " << genre << std::endl;
     }
 
@@ -61,8 +85,8 @@ private:
     std::vector<Track> tracks;
 
 public:
-    Album(const std::string& title, const std::string& artist, int year, int num_tracks)
-        : title(title), artist(artist), year(year), num_tracks(num_tracks) {}
+    Album(const std::string& title, const std::string& artist, int year, int num_tracks, std::vector<Track> tracks)
+        : title(title), artist(artist), year(year), num_tracks(num_tracks), tracks(tracks) {}
 
     Album() {};
 
@@ -71,7 +95,7 @@ public:
         std::string title, artist;
         int year, num_tracks;
 
-        std::cout << "\nНазвание трека: ";
+        std::cout << "\nНазвание альбома: ";
         std::getline(std::cin, title);
 
         std::cout << "Имя исполнителя: ";
@@ -85,10 +109,10 @@ public:
 
         for (int i = 0; i < num_tracks; ++i) {
             std::cout << "Введите информацию о треке #" << (i + 1) << std::endl;
-            Track track = Track::InputTrack();
+            Track track = Track::InputShortTrack();
             tracks.push_back(track);
         }
-        return Album(title, artist, year, num_tracks);
+        return Album(title, artist, year, num_tracks,tracks);
     }
 
     void SetTracks(const std::vector<Track>& newTracks) {
@@ -101,7 +125,7 @@ public:
         std::cout << "Год выхода: " << year << std::endl;
         std::cout << "Кол-во треков: " << num_tracks << std::endl;
         for (const Track& track : tracks) {
-            track.OutputTrack();
+            track.OutputShortTrack();
         }
     }
 
@@ -120,9 +144,22 @@ public:
 
     Artist() {};
 
+    void SetAlbums(const std::vector<Album>& newAlbums) {
+        albums = newAlbums;
+    }
 
-    void AddAlbum(Album& album) {
-        albums.push_back(album);
+    void PrintAlbums()  const{
+        for (const Album& album : this->albums) {
+            album.OutputAlbum();
+            std::cout << std::endl;
+        }
+    }
+
+    void DeleteAlbum() {
+        int number;
+        std::cout << "Введите номер альбома, который хотите удалить: " << std::endl;
+        std::cin >> number;
+        albums.erase(albums.begin() + number - 1);
     }
 
     ~Artist() {}
@@ -159,14 +196,9 @@ public:
 
     void DeleteTrack() {
         int number;
-        std::cout << "Введите номер трека, который хотите удалить:";
+        std::cout << "Введите номер трека, который хотите удалить:" << std::endl;
         std::cin >> number;
         tracks.erase(tracks.begin() + number-1);
-    }
-
-    void InputTrack() {
-            Track track = Track::InputTrack();
-            tracks.push_back(track);
     }
 
     void AddAlbum(Album& album) {
@@ -182,6 +214,13 @@ public:
             album.OutputAlbum();
             std::cout << std::endl;
         }
+    }
+
+    void DeleteAlbum() {
+        int number;
+        std::cout << "Введите номер альбома, который хотите удалить: " << std::endl;
+        std::cin >> number;
+        albums.erase(albums.begin() + number - 1);
     }
 
     ~Playlist(){}
@@ -228,10 +267,13 @@ int main() {
     myPlaylist.PrintTracks();
     //myPlaylist.DeleteTrack();
     //myPlaylist.PrintTracks();
-    //myPlaylist.InputTrack();
+    //Track newTrack;
+    //newTrack = newTrack.InputTrack();
+    //myPlaylist.AddTrack(newTrack);
     //myPlaylist.PrintTracks();
 
-    Album album1("Несчастные люди", "ЛСП", 2023, 12);
+
+    Album album1("Несчастные люди", "ЛСП", 2023, 12, std::vector<Track>());
     std::vector<Track> tracks1 = {
         {"Карантин", "ЛСП", 180, 2023, "поп хип-хоп"},
         {"Троянский конь", "ЛСП", 200, 2023, "поп хип-хоп"},
@@ -248,7 +290,7 @@ int main() {
     };
     album1.SetTracks(tracks1);
 
-    Album album2("Дух мира", "Джизус", 2023, 13);
+    Album album2("Дух мира", "Джизус", 2023, 13,std::vector<Track>());
     std::vector<Track> tracks2 = {
          {"Я голоден", "Джизус", 171, 2023, "альтернатива"},
         {"Едкий дым", "Джизус", 224, 2023, "альтернатива"},
@@ -260,7 +302,7 @@ int main() {
         {"Рай или Ад", "Джизус", 258, 2023, "альтернатива"},
         {"Spirit of the World", "Джизус", 217, 2023, "альтернатива"},
         {"Жвачка", "Джизус", 266, 2023, "альтернатива"},
-        {"Заповедь", "Джизус", 97, 2023, "альтернатива"},
+        {"Заповедь", "Джизус", 100, 2023, "альтернатива"},
         {"Сигареты и творчество", "Джизус", 155, 2023, "альтернатива"},
         {"Каплей дождя", "Джизус", 238, 2023, "альтернатива"}
     };
@@ -270,10 +312,44 @@ int main() {
 
     myPlaylist.SetAlbums(albums);
     myPlaylist.PrintAlbums();
+    //myPlaylist.DeleteAlbum();
+    //myPlaylist.PrintAlbums();
+    //Album newAlbum;
+    //newAlbum = newAlbum.InputAlbum();
+    //myPlaylist.AddAlbum(newAlbum);
+    //myPlaylist.PrintAlbums();
 
-    /*ml = DeletePlaylistAlbum(ml);*/
-    //ml = AlbumInputPlaylist(ml);
-    /*OutputPlaylistAlbums(ml);*/
+    Album albumLsp1("Magic City", "ЛСП", 2015, 9, std::vector<Track>());
+    std::vector<Track> tracksLsp1 =
+    { {"Bullet", "ЛСП", 130, 2015, "рэп"},
+    {"Что-то ещё", "ЛСП", 423, 2015, "рэп"},
+    {"Шест", "ЛСП", 412, 2015, "рэп"},
+    {"Безумие", "ЛСП", 258, 2015, "рэп"},
+    {"Синее", "ЛСП", 258, 2015, "рэп"},
+    {"Фокус", "ЛСП", 258, 2015, "рэп"},
+    {"Бигги", "ЛСП", 258, 2015, "рэп"},
+    {"ОК", "ЛСП", 258, 2015, "рэп"},
+    {"Уровни", "ЛСП", 258, 2015, "рэп"} };
+    Album albumLsp2("Tragic City", "ЛСП", 2017, 10, std::vector<Track>());
+    std::vector<Track> tracksLsp2  =
+    { {"Воскресение", "ЛСП", 130, 2015, "рэп"},
+    {"Монетка", "ЛСП", 423, 2015, "рэп"},
+    {"Тело", "ЛСП", 412, 2015, "рэп"},
+    {"Лабиринт отражений", "ЛСП", 258, 2015, "рэп"},
+    {"Конец света", "ЛСП", 258, 2015, "рэп"},
+    {"Белый танец", "ЛСП", 258, 2015, "рэп"},
+    {"Ещё один день", "ЛСП", 258, 2015, "рэп"},
+    {"Канкан", "ЛСП", 258, 2015, "рэп"},
+    {"Ползать", "ЛСП", 258, 2015, "рэп"},
+    {"Деньги не проблема", "ЛСП", 258, 2015, "рэп"}};
+    albumLsp1.SetTracks(tracksLsp1);
+    albumLsp2.SetTracks(tracksLsp2);
+    std::vector<Album> albumsLsp = { {albumLsp1},{albumLsp2} };
+    Artist myArtist("ЛСП", 2);
+    myArtist.SetAlbums(albums);
+    myArtist.PrintAlbums();
+    myArtist.DeleteAlbum();
+    myArtist.PrintAlbums();
 
     return 0;
 }
