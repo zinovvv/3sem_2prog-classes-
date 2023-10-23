@@ -73,7 +73,7 @@ public:
         std::cout << "Жанр: " << genre << std::endl;
     }
 
-    ~Track() {}
+    ~Track() = default;
 };
 
 class Album {
@@ -81,12 +81,12 @@ private:
     std::string title;
     std::string artist;
     int year;
-    int num_tracks;
+    int numTracks;
     std::vector<Track> tracks;
 
 public:
-    Album(const std::string& title, const std::string& artist, int year, int num_tracks, std::vector<Track> tracks)
-        : title(title), artist(artist), year(year), num_tracks(num_tracks), tracks(tracks) {}
+    Album(const std::string& title, const std::string& artist, int year, int numTracks, std::vector<Track> tracks)
+        : title(title), artist(artist), year(year), numTracks(numTracks), tracks(tracks) {}
 
     Album() {};
 
@@ -123,24 +123,24 @@ public:
         std::cout << "Название: " << title << std::endl;
         std::cout << "Исполнитель: " << artist << std::endl;
         std::cout << "Год выхода: " << year << std::endl;
-        std::cout << "Кол-во треков: " << num_tracks << std::endl;
+        std::cout << "Кол-во треков: " << numTracks << std::endl;
         for (const Track& track : tracks) {
             track.OutputShortTrack();
         }
     }
 
-    ~Album() {}
+    ~Album() = default;
 };
 
 class Artist {
 private:
     std::string name;
-    int num_albums;
+    int numAlbums;
     std::vector<Album> albums;
 
 public:
-    Artist(const std::string& name, int num_albums)
-        : name(name), num_albums(num_albums) {};
+    Artist(const std::string& name, int numAlbums)
+        : name(name), numAlbums(numAlbums) {};
 
     Artist() {};
 
@@ -162,19 +162,19 @@ public:
         albums.erase(albums.begin() + number - 1);
     }
 
-    ~Artist() {}
+    ~Artist() = default;
 };
 
 class Playlist {
 private:
     std::string title;
-    int num_tracks;
-    int num_albums;
+    int numTracks;
+    int numAlbums;
     std::vector<Track> tracks;
     std::vector<Album> albums;
 
 public:
-    Playlist(const std::string& title, int num_tracks, int num_albums) : title(title), num_tracks(num_tracks), num_albums(num_albums) {};
+    Playlist(const std::string& title, int numTracks, int numAlbums) : title(title), numTracks(numTracks), numAlbums(numAlbums) {};
 
     Playlist() {};
 
@@ -223,32 +223,40 @@ public:
         albums.erase(albums.begin() + number - 1);
     }
 
-    ~Playlist(){}
+    ~Playlist() = default;
 };
 
 class MusicLibrary {
 private:
-    int num_artists;
-    int num_playlists;
-    std::vector<Artist> all_artists;
-    std::vector<Playlist> all_playlists;
+    int numArtists;
+    int numPlaylists;
+    std::vector<Artist> allArtists;
+    std::vector<Playlist> allPlaylists;
 
 public:
-    MusicLibrary(int num_artists, int num_playlists)
-        : num_artists(num_artists), num_playlists(num_playlists) {};
+    MusicLibrary(int numArtists, int numPlaylists)
+        : numArtists(numArtists), numPlaylists(numPlaylists) {};
 
     MusicLibrary() {};
 
 
     void AddArtist(const Artist& artist) {
-        all_artists.push_back(artist);
+        allArtists.push_back(artist);
     }
 
     void AddPlaylist(const Playlist& playlist) {
-        all_playlists.push_back(playlist);
+        allPlaylists.push_back(playlist);
     }
 
-    ~MusicLibrary() {};
+    Playlist GetPlaylist(int index) {
+        return allPlaylists.at(index);
+    }
+
+    Artist GetArtist(int index) {
+        return allArtists.at(index);
+    }
+
+    ~MusicLibrary() = default;
 };
 
 int main() {
@@ -264,16 +272,7 @@ int main() {
     {"Лето в городе", "Иван Дорн", 328, 2012, "поп"}
     };
     myPlaylist.SetTracks(tracks);
-    myPlaylist.PrintTracks();
-    //myPlaylist.DeleteTrack();
-    //myPlaylist.PrintTracks();
-    //Track newTrack;
-    //newTrack = newTrack.InputTrack();
-    //myPlaylist.AddTrack(newTrack);
-    //myPlaylist.PrintTracks();
-
-
-    Album album1("Несчастные люди", "ЛСП", 2023, 12, std::vector<Track>());
+    Album album1("Несчастные люди", "ЛСП", 2023, 12, {});
     std::vector<Track> tracks1 = {
         {"Карантин", "ЛСП", 180, 2023, "поп хип-хоп"},
         {"Троянский конь", "ЛСП", 200, 2023, "поп хип-хоп"},
@@ -289,8 +288,7 @@ int main() {
         {"Стоп Игра", "ЛСП", 240, 2023, "поп хип-хоп"}
     };
     album1.SetTracks(tracks1);
-
-    Album album2("Дух мира", "Джизус", 2023, 13,std::vector<Track>());
+    Album album2("Дух мира", "Джизус", 2023, 13,{});
     std::vector<Track> tracks2 = {
          {"Я голоден", "Джизус", 171, 2023, "альтернатива"},
         {"Едкий дым", "Джизус", 224, 2023, "альтернатива"},
@@ -307,19 +305,9 @@ int main() {
         {"Каплей дождя", "Джизус", 238, 2023, "альтернатива"}
     };
     album2.SetTracks(tracks2);
-
-    std::vector<Album> albums = { {album1},{album2} };
-
+    std::vector<Album> albums = { album1,album2 };
     myPlaylist.SetAlbums(albums);
-    myPlaylist.PrintAlbums();
-    //myPlaylist.DeleteAlbum();
-    //myPlaylist.PrintAlbums();
-    //Album newAlbum;
-    //newAlbum = newAlbum.InputAlbum();
-    //myPlaylist.AddAlbum(newAlbum);
-    //myPlaylist.PrintAlbums();
-
-    Album albumLsp1("Magic City", "ЛСП", 2015, 9, std::vector<Track>());
+    Album albumLsp1("Magic City", "ЛСП", 2015, 9, {});
     std::vector<Track> tracksLsp1 =
     { {"Bullet", "ЛСП", 130, 2015, "рэп"},
     {"Что-то ещё", "ЛСП", 423, 2015, "рэп"},
@@ -330,7 +318,7 @@ int main() {
     {"Бигги", "ЛСП", 258, 2015, "рэп"},
     {"ОК", "ЛСП", 258, 2015, "рэп"},
     {"Уровни", "ЛСП", 258, 2015, "рэп"} };
-    Album albumLsp2("Tragic City", "ЛСП", 2017, 10, std::vector<Track>());
+    Album albumLsp2("Tragic City", "ЛСП", 2017, 10, {});
     std::vector<Track> tracksLsp2  =
     { {"Воскресение", "ЛСП", 130, 2015, "рэп"},
     {"Монетка", "ЛСП", 423, 2015, "рэп"},
@@ -344,9 +332,30 @@ int main() {
     {"Деньги не проблема", "ЛСП", 258, 2015, "рэп"}};
     albumLsp1.SetTracks(tracksLsp1);
     albumLsp2.SetTracks(tracksLsp2);
-    std::vector<Album> albumsLsp = { {albumLsp1},{albumLsp2} };
+    std::vector<Album> albumsLsp = { albumLsp1,albumLsp2 };
     Artist myArtist("ЛСП", 2);
-    myArtist.SetAlbums(albums);
+    myArtist.SetAlbums(albumsLsp);
+    myMusicLibrary.AddPlaylist(myPlaylist);
+
+    myPlaylist = myMusicLibrary.GetPlaylist(0);
+    myPlaylist.PrintTracks();
+    myPlaylist.DeleteTrack();
+    myPlaylist.PrintTracks();
+    //Track newTrack;
+    //newTrack = newTrack.InputTrack();
+    //myPlaylist.AddTrack(newTrack);
+    //myPlaylist.PrintTracks();
+    myPlaylist.PrintAlbums();
+    myPlaylist.DeleteAlbum();
+    myPlaylist.PrintAlbums();
+    //Album newAlbum;
+    //newAlbum = newAlbum.InputAlbum();
+    //myPlaylist.AddAlbum(newAlbum);
+    //myPlaylist.PrintAlbums();
+
+    myMusicLibrary.AddArtist(myArtist);
+
+    myArtist = myMusicLibrary.GetArtist(0);
     myArtist.PrintAlbums();
     myArtist.DeleteAlbum();
     myArtist.PrintAlbums();
