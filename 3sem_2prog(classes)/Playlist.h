@@ -14,7 +14,7 @@ private:
 public:
     Playlist(const std::string& title, int numTracks, int numAlbums);
 
-    Playlist(const Playlist& other) {};
+    Playlist(const Playlist& other);
 
     Playlist();
 
@@ -34,5 +34,5 @@ public:
 
     void DeleteAlbum();
 
-    ~Playlist();
+    ~Playlist() = default;
 };

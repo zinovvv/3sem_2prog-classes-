@@ -15,7 +15,6 @@ Track::Track(const Track& other) {
 
 Track::Track() {};
 
-
 Track Track::InputTrack() {
     std::string title, artist, genre;
     int duration, year;
@@ -41,7 +40,7 @@ Track Track::InputTrack() {
 
 Track Track::InputShortTrack() {
     std::string title, artist, genre;
-    int duration, year;
+    int duration;
 
     std::cout << "\nНазвание трека: ";
     std::cin.ignore();
@@ -69,5 +68,3 @@ void Track::OutputShortTrack() const {
     std::cout << std::left << "Длительность: " << duration << std::setw(10) << " сек";
     std::cout << "Жанр: " << genre << std::endl;
 }
-
-Track::~Track() = default;

@@ -11,7 +11,7 @@ MusicLibrary::MusicLibrary(const MusicLibrary& other) {
     allPlaylists = other.allPlaylists;
 }
 
-MusicLibrary::MusicLibrary() {}
+MusicLibrary::MusicLibrary() {};
 
 void MusicLibrary::AddArtist(const Artist& artist) {
     allArtists.push_back(artist);
@@ -28,5 +28,3 @@ Artist* MusicLibrary::GetArtist(int index) {
 Playlist MusicLibrary::GetPlaylist(int index) {
     return allPlaylists.at(index);
 }
-
-MusicLibrary::~MusicLibrary() {}

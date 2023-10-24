@@ -18,6 +18,9 @@ int main() {
     {"Лето в городе", "Иван Дорн", 328, 2012, "поп"}
     };
     myPlaylist.SetTracks(tracks);
+
+    Album** albumsArray = new Album * [2];
+
     Album* album1 = new Album("Несчастные люди", "ЛСП", 2023, 12, {});
     std::vector<Track> tracks1 = {
         {"Карантин", "ЛСП", 180, 2023, "поп хип-хоп"},
@@ -51,8 +54,18 @@ int main() {
         {"Каплей дождя", "Джизус", 238, 2023, "альтернатива"}
     };
     album2->SetTracks(tracks2);
-    std::vector<Album> albums = { *album1, *album2 };
+
+    albumsArray[0] = album1;
+    albumsArray[1] = album2;
+
+    std::vector<Album> albums;
+    for (int i = 0; i < 2; i++) {
+        albums.push_back(*albumsArray[i]);
+    }
+
     myPlaylist.SetAlbums(albums);
+
+
     Album albumLsp1("Magic City", "ЛСП", 2015, 9, {});
     std::vector<Track> tracksLsp1 =
     { {"Bullet", "ЛСП", 130, 2015, "рэп"},
@@ -81,6 +94,8 @@ int main() {
     std::vector<Album> albumsLsp = { albumLsp1,albumLsp2 };
     Artist* myArtist = new Artist("ЛСП", 2);
     myArtist->SetAlbums(albumsLsp);
+
+
     myMusicLibrary.AddPlaylist(myPlaylist);
 
     myPlaylist = myMusicLibrary.GetPlaylist(0);
@@ -88,21 +103,27 @@ int main() {
     myPlaylist.PrintTracks();
     myPlaylist.DeleteTrack();
     myPlaylist.PrintTracks();
-    //std::cout << "Добавление трека в плейлист" << std::endl;
-    //Track newTrack;
-    //newTrack = newTrack.InputTrack();
-    //myPlaylist.AddTrack(newTrack);
-    //myPlaylist.PrintTracks();
+
+
+    std::cout << "Добавление трека в плейлист" << std::endl;
+    Track newTrack;
+    newTrack = newTrack.InputTrack();
+    myPlaylist.AddTrack(newTrack);
+    myPlaylist.PrintTracks();
+
+
     std::cout << "\nВывод альбомов из плейлиста\n" << std::endl;
     myPlaylist.PrintAlbums();
     std::cout << "\nУдаление альбома из плейлиста\n" << std::endl;
     myPlaylist.DeleteAlbum();
     std::cout << "\nВывод альбомов из плейлиста\n" << std::endl;
     myPlaylist.PrintAlbums();
- /*   Album newAlbum;
-    newAlbum = newAlbum.InputAlbum();
-    myPlaylist.AddAlbum(newAlbum);
-    myPlaylist.PrintAlbums();*/
+
+    Album* newAlbum = new Album;
+    newAlbum = newAlbum->InputAlbum();
+    myPlaylist.AddAlbum(*newAlbum);
+    myPlaylist.PrintAlbums();
+
 
     myMusicLibrary.AddArtist(*myArtist);
     myArtist = myMusicLibrary.GetArtist(0);
@@ -113,8 +134,11 @@ int main() {
     std::cout << "\nВывод альбомов артиста\n" << std::endl;
     myArtist->PrintAlbums();
 
-    delete album1;
-    delete album2;
+    for (int i = 0; i < 2; i++) {
+        delete albumsArray[i];
+    }
+    delete[] albumsArray;
+    delete newAlbum;
 
     return 0;
 }

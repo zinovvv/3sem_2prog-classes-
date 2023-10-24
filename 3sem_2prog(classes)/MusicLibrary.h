@@ -13,7 +13,7 @@ private:
 
 public:
     MusicLibrary(int numArtists, int numPlaylists);
-    MusicLibrary(const MusicLibrary& other) {};
+    MusicLibrary(const MusicLibrary& other);
     MusicLibrary();
 
     void AddArtist(const Artist& artist);
@@ -22,5 +22,5 @@ public:
     Artist* GetArtist(int index);
     Playlist GetPlaylist(int index);
 
-    ~MusicLibrary();
+    ~MusicLibrary() = default;
 };

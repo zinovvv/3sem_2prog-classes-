@@ -12,10 +12,9 @@ Album::Album(const Album& other) {
     tracks = other.tracks;
 }
 
-Album::Album() {}
+Album::Album() {};
 
-
-Album Album::InputAlbum() {
+Album* Album::InputAlbum() {
     std::string title, artist;
     int year, num_tracks;
 
@@ -36,7 +35,9 @@ Album Album::InputAlbum() {
         Track track = Track::InputShortTrack();
         tracks.push_back(track);
     }
-    return Album(title, artist, year, num_tracks, tracks);
+    Album* newAlbum = new Album(title, artist, year, num_tracks, tracks);
+    newAlbum->SetTracks(tracks);
+    return newAlbum;
 }
 
 void Album::SetTracks(const std::vector<Track>& newTracks) {
@@ -53,4 +54,4 @@ void Album::OutputAlbum() const {
     }
 }
 
-Album::~Album() = default;
+Album::~Album() {};

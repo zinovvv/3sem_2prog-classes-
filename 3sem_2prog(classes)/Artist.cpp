@@ -10,7 +10,7 @@ Artist::Artist(const Artist& other) {
     albums = other.albums;
 }
 
-Artist::Artist() {}
+Artist::Artist() {};
 
 void Artist::SetAlbums(const std::vector<Album>& newAlbums) {
     albums = newAlbums;
@@ -27,5 +27,6 @@ void Artist::DeleteAlbum() {
     int number;
     std::cout << "¬ведите номер альбома, который хотите удалить: " << std::endl;
     std::cin >> number;
+    std::cin.ignore();
     albums.erase(albums.begin() + number - 1);
 }

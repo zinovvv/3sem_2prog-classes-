@@ -11,7 +11,7 @@ Playlist::Playlist(const Playlist& other) {
     albums = other.albums;
 }
 
-Playlist::Playlist() {}
+Playlist::Playlist() {};
 
 void Playlist::AddTrack(Track& track) {
     tracks.push_back(track);
@@ -32,6 +32,7 @@ void Playlist::DeleteTrack() {
     int number;
     std::cout << "¬ведите номер трека, который хотите удалить:" << std::endl;
     std::cin >> number;
+    std::cin.ignore();
     tracks.erase(tracks.begin() + number - 1);
 }
 
@@ -54,7 +55,6 @@ void Playlist::DeleteAlbum() {
     int number;
     std::cout << "¬ведите номер альбома, который хотите удалить: " << std::endl;
     std::cin >> number;
+    std::cin.ignore();
     albums.erase(albums.begin() + number - 1);
 }
-
-Playlist::~Playlist() = default;
