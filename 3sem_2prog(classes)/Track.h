@@ -14,6 +14,7 @@ private:
 public:
 
     Track(const std::string& title, const std::string& artist, int duration, int year, const std::string& genre);
+    Track(const Track& other) {};
     Track();
 
     static Track InputTrack();

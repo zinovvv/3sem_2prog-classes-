@@ -18,7 +18,7 @@ int main() {
     {"Лето в городе", "Иван Дорн", 328, 2012, "поп"}
     };
     myPlaylist.SetTracks(tracks);
-    Album album1("Несчастные люди", "ЛСП", 2023, 12, {});
+    Album* album1 = new Album("Несчастные люди", "ЛСП", 2023, 12, {});
     std::vector<Track> tracks1 = {
         {"Карантин", "ЛСП", 180, 2023, "поп хип-хоп"},
         {"Троянский конь", "ЛСП", 200, 2023, "поп хип-хоп"},
@@ -33,8 +33,8 @@ int main() {
         {"Сикрет Плейс", "ЛСП", 203, 2023, "поп хип-хоп"},
         {"Стоп Игра", "ЛСП", 240, 2023, "поп хип-хоп"}
     };
-    album1.SetTracks(tracks1);
-    Album album2("Дух мира", "Джизус", 2023, 13,{});
+    album1->SetTracks(tracks1);
+    Album* album2 = new Album("Дух мира", "Джизус", 2023, 13, {});
     std::vector<Track> tracks2 = {
          {"Я голоден", "Джизус", 171, 2023, "альтернатива"},
         {"Едкий дым", "Джизус", 224, 2023, "альтернатива"},
@@ -50,8 +50,8 @@ int main() {
         {"Сигареты и творчество", "Джизус", 155, 2023, "альтернатива"},
         {"Каплей дождя", "Джизус", 238, 2023, "альтернатива"}
     };
-    album2.SetTracks(tracks2);
-    std::vector<Album> albums = { album1,album2 };
+    album2->SetTracks(tracks2);
+    std::vector<Album> albums = { *album1, *album2 };
     myPlaylist.SetAlbums(albums);
     Album albumLsp1("Magic City", "ЛСП", 2015, 9, {});
     std::vector<Track> tracksLsp1 =
@@ -79,32 +79,42 @@ int main() {
     albumLsp1.SetTracks(tracksLsp1);
     albumLsp2.SetTracks(tracksLsp2);
     std::vector<Album> albumsLsp = { albumLsp1,albumLsp2 };
-    Artist myArtist("ЛСП", 2);
-    myArtist.SetAlbums(albumsLsp);
+    Artist* myArtist = new Artist("ЛСП", 2);
+    myArtist->SetAlbums(albumsLsp);
     myMusicLibrary.AddPlaylist(myPlaylist);
 
     myPlaylist = myMusicLibrary.GetPlaylist(0);
+    std::cout << "Вывод треков из плейлиста\n" << std::endl;
     myPlaylist.PrintTracks();
     myPlaylist.DeleteTrack();
     myPlaylist.PrintTracks();
+    //std::cout << "Добавление трека в плейлист" << std::endl;
     //Track newTrack;
     //newTrack = newTrack.InputTrack();
     //myPlaylist.AddTrack(newTrack);
     //myPlaylist.PrintTracks();
+    std::cout << "\nВывод альбомов из плейлиста\n" << std::endl;
     myPlaylist.PrintAlbums();
+    std::cout << "\nУдаление альбома из плейлиста\n" << std::endl;
     myPlaylist.DeleteAlbum();
+    std::cout << "\nВывод альбомов из плейлиста\n" << std::endl;
     myPlaylist.PrintAlbums();
  /*   Album newAlbum;
     newAlbum = newAlbum.InputAlbum();
     myPlaylist.AddAlbum(newAlbum);
     myPlaylist.PrintAlbums();*/
 
-    myMusicLibrary.AddArtist(myArtist);
+    myMusicLibrary.AddArtist(*myArtist);
     myArtist = myMusicLibrary.GetArtist(0);
-    myArtist.PrintAlbums();
-    myArtist.DeleteAlbum();
-    myArtist.PrintAlbums();
+    std::cout << "\nВывод альбомов артиста\n" << std::endl;
+    myArtist->PrintAlbums();
+    std::cout << "\nУдаление альбома артиста\n" << std::endl;
+    myArtist->DeleteAlbum();
+    std::cout << "\nВывод альбомов артиста\n" << std::endl;
+    myArtist->PrintAlbums();
 
+    delete album1;
+    delete album2;
 
     return 0;
 }

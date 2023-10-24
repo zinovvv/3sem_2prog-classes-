@@ -4,6 +4,13 @@
 Playlist::Playlist(const std::string& title, int numTracks, int numAlbums)
     : title(title), numTracks(numTracks), numAlbums(numAlbums) {}
 
+Playlist::Playlist(const Playlist& other) {
+    numTracks = other.numTracks;
+    numAlbums = other.numAlbums;
+    tracks = other.tracks;
+    albums = other.albums;
+}
+
 Playlist::Playlist() {}
 
 void Playlist::AddTrack(Track& track) {

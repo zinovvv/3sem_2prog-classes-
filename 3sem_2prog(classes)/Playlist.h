@@ -14,6 +14,8 @@ private:
 public:
     Playlist(const std::string& title, int numTracks, int numAlbums);
 
+    Playlist(const Playlist& other) {};
+
     Playlist();
 
     void AddTrack(Track& track);

@@ -4,6 +4,12 @@
 Artist::Artist(const std::string& name, int numAlbums)
     : name(name), numAlbums(numAlbums) {}
 
+Artist::Artist(const Artist& other) {
+    name = other.name;
+    numAlbums = other.numAlbums;
+    albums = other.albums;
+}
+
 Artist::Artist() {}
 
 void Artist::SetAlbums(const std::vector<Album>& newAlbums) {

@@ -4,6 +4,17 @@
 Album::Album(const std::string& title, const std::string& artist, int year, int numTracks, std::vector<Track> tracks)
     : title(title), artist(artist), year(year), numTracks(numTracks), tracks(tracks) {}
 
+Album::Album(const Album& other) {
+    title = other.title;
+    artist = other.artist;
+    year = other.year;
+    numTracks = other.numTracks;
+    tracks = other.tracks;
+}
+
+Album::Album() {}
+
+
 Album Album::InputAlbum() {
     std::string title, artist;
     int year, num_tracks;

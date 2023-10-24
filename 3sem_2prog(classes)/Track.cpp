@@ -5,6 +5,14 @@
 Track::Track(const std::string& title, const std::string& artist, int duration, int year, const std::string& genre)
     :title(title), artist(artist), duration(duration), year(year), genre(genre) {}
 
+Track::Track(const Track& other) {
+    title = other.title;
+    artist = other.artist;
+    duration = other.duration;
+    year = other.year;
+    genre = other.genre;
+}
+
 Track::Track() {};
 
 

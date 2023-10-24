@@ -11,6 +11,7 @@ private:
 
 public:
     Artist(const std::string& name, int numAlbums);
+    Artist(const Artist& other) {};
     Artist();
 
     void SetAlbums(const std::vector<Album>& newAlbums);

@@ -14,6 +14,8 @@ private:
 
 public:
     Album(const std::string& title, const std::string& artist, int year, int numTracks, std::vector<Track> tracks);
+    Album(const Album& other) {};
+    Album() {};
 
     Album InputAlbum();
     void SetTracks(const std::vector<Track>& newTracks);

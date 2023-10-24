@@ -13,12 +13,13 @@ private:
 
 public:
     MusicLibrary(int numArtists, int numPlaylists);
+    MusicLibrary(const MusicLibrary& other) {};
     MusicLibrary();
 
     void AddArtist(const Artist& artist);
     void AddPlaylist(const Playlist& playlist);
 
-    Artist GetArtist(int index);
+    Artist* GetArtist(int index);
     Playlist GetPlaylist(int index);
 
     ~MusicLibrary();
