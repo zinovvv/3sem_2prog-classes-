@@ -56,7 +56,7 @@ Track Track::InputShortTrack() {
 }
 
 void Track::OutputTrack() const {
-    std::cout << "Название: " << title << std::endl;
+    std::cout << "\nНазвание: " << title << std::endl;
     std::cout << "Исполнитель: " << artist << std::endl;
     std::cout << "Длительность: " << duration << " seconds" << std::endl;
     std::cout << "Год выхода: " << year << std::endl;

@@ -48,7 +48,7 @@ void Album::SetTracks(const std::vector<Track>& newTracks) {
 }
 
 void Album::OutputAlbum() const {
-    std::cout << "Название: " << title << std::endl;
+    std::cout << "\nНазвание: " << title << std::endl;
     std::cout << "Исполнитель: " << artist << std::endl;
     std::cout << "Год выхода: " << year << std::endl;
     std::cout << "Кол-во треков: " << numTracks << std::endl;
