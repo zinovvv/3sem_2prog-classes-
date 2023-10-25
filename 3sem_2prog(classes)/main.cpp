@@ -9,18 +9,27 @@ int main() {
     SetConsoleCP(1251);
     setlocale(LC_ALL, "rus");
 
+    //Создание библиотеки
     MusicLibrary myMusicLibrary(1, 1);
 
+    //Создание плейлиста
     Playlist myPlaylist("Любимые треки", 3, 2);
+
+    //Вектор с треками для плейлиста
     std::vector<Track> tracks = {
     {"Кукушка", "Виктор Цой", 400, 1986, "рок"},
     {"Метель", "Би-2", 345, 1998, "рок"},
     {"Лето в городе", "Иван Дорн", 328, 2012, "поп"}
     };
+
+    //Заполнение вектора tracks внутри класса Playlist
     myPlaylist.SetTracks(tracks);
 
+    //Работа с динамической память
+    //Выделяю память для массива указателей на объекты класса Album
     Album** albumsArray = new Album * [2];
 
+    //Первый альбом для плейлиста
     Album* album1 = new Album("Несчастные люди", "ЛСП", 2023, 12, {});
     std::vector<Track> tracks1 = {
         {"Карантин", "ЛСП", 180, 2023, "поп хип-хоп"},
@@ -37,6 +46,8 @@ int main() {
         {"Стоп Игра", "ЛСП", 240, 2023, "поп хип-хоп"}
     };
     album1->SetTracks(tracks1);
+
+    //Второй альбом для плейлиста
     Album* album2 = new Album("Дух мира", "Джизус", 2023, 13, {});
     std::vector<Track> tracks2 = {
          {"Я голоден", "Джизус", 171, 2023, "альтернатива"},
@@ -55,17 +66,21 @@ int main() {
     };
     album2->SetTracks(tracks2);
 
+    //Заполняем массив указателей на альбомы
     albumsArray[0] = album1;
     albumsArray[1] = album2;
 
+    //Создаем вектор albums, который будет содержать копии объектов Album
     std::vector<Album> albums;
     for (int i = 0; i < 2; i++) {
+        // Добавляем копии альбомов в вектор
         albums.push_back(*albumsArray[i]);
     }
 
+    //Заполняем плейлист альбомами
     myPlaylist.SetAlbums(albums);
 
-
+    //Первый альбом для артиста и вектор треков для него
     Album albumLsp1("Magic City", "ЛСП", 2015, 9, {});
     std::vector<Track> tracksLsp1 =
     { {"Bullet", "ЛСП", 130, 2015, "рэп"},
@@ -77,6 +92,10 @@ int main() {
     {"Бигги", "ЛСП", 258, 2015, "рэп"},
     {"ОК", "ЛСП", 258, 2015, "рэп"},
     {"Уровни", "ЛСП", 258, 2015, "рэп"} };
+    //Заполнение альбома треками
+    albumLsp1.SetTracks(tracksLsp1);
+
+    //Второй альбом и вектор треков для него
     Album albumLsp2("Tragic City", "ЛСП", 2017, 10, {});
     std::vector<Track> tracksLsp2  =
     { {"Воскресение", "ЛСП", 130, 2015, "рэп"},
@@ -89,29 +108,44 @@ int main() {
     {"Канкан", "ЛСП", 258, 2015, "рэп"},
     {"Ползать", "ЛСП", 258, 2015, "рэп"},
     {"Деньги не проблема", "ЛСП", 258, 2015, "рэп"}};
-    albumLsp1.SetTracks(tracksLsp1);
+    //Заполнение альбома треками
     albumLsp2.SetTracks(tracksLsp2);
+
+    //Создаю вектор альбомов, который содержит созданные альбомы
     std::vector<Album> albumsLsp = { albumLsp1,albumLsp2 };
+
+    //Выделяю память для Artist
     Artist* myArtist = new Artist("ЛСП", 2);
+
+    //Обращаюсь к методу объекта через '->' (Заполнение артиста альбомами)
     myArtist->SetAlbums(albumsLsp);
 
 
+    //Добавляю созданный плейлист в музыкальную библиотеку
     myMusicLibrary.AddPlaylist(myPlaylist);
 
+    //Создаю новый объект myPlaylist, полученный из метода GetPlaylist
     myPlaylist = myMusicLibrary.GetPlaylist(0);
-    std::cout << "Вывод треков из плейлиста\n" << std::endl;
-    myPlaylist.PrintTracks();
-    myPlaylist.DeleteTrack();
-    myPlaylist.PrintTracks();
 
+    std::cout << "Вывод треков из плейлиста\n" << std::endl;
+    //Вывод треков из плейлиста
+    myPlaylist.PrintTracks();
+    //Удаление трека на выбор
+    myPlaylist.DeleteTrack();
+    //Вывод треков
+    myPlaylist.PrintTracks();
 
     std::cout << "Добавление трека в плейлист" << std::endl;
+    //Создаю объект newTrack
     Track newTrack;
+    //В методе InputTrack ввожу новый трек и присваиваю объекту newTrack
     newTrack = newTrack.InputTrack();
+    //Добавление трека
     myPlaylist.AddTrack(newTrack);
+    //Вывод всех треков
     myPlaylist.PrintTracks();
 
-
+    //Аналогично, как с треками
     std::cout << "\nВывод альбомов из плейлиста\n" << std::endl;
     myPlaylist.PrintAlbums();
     std::cout << "\nУдаление альбома из плейлиста\n" << std::endl;
@@ -119,13 +153,16 @@ int main() {
     std::cout << "\nВывод альбомов из плейлиста\n" << std::endl;
     myPlaylist.PrintAlbums();
 
+    //Добавление альбома в плейлист и вывод в консоль
     Album* newAlbum = new Album;
     newAlbum = newAlbum->InputAlbum();
     myPlaylist.AddAlbum(*newAlbum);
     myPlaylist.PrintAlbums();
 
-
+    //Добавление исполнителя в музыкальную библиотеку
     myMusicLibrary.AddArtist(*myArtist);
+
+    //Создаю новый объект myArtist, полученный из метода GetArtist
     myArtist = myMusicLibrary.GetArtist(0);
     std::cout << "\nВывод альбомов артиста\n" << std::endl;
     myArtist->PrintAlbums();
@@ -134,10 +171,13 @@ int main() {
     std::cout << "\nВывод альбомов артиста\n" << std::endl;
     myArtist->PrintAlbums();
 
+    //Освобождение памяти, выделенной для объектов альбомов
     for (int i = 0; i < 2; i++) {
         delete albumsArray[i];
     }
+    //Освобождение памяти, выделенной для массива указателей на альбомы
     delete[] albumsArray;
+    //Освобождение памяти, выделенной для newAlbum
     delete newAlbum;
 
     return 0;
